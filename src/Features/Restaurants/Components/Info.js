@@ -1,10 +1,10 @@
 /* eslint-disable prettier/prettier */
 import React from "react";
-import { Card } from "react-native-paper";
 import Star from "../../../../assets/Star";
 import Open from "../../../../assets/Open";
 import { SvgXml } from "react-native-svg";
 import {
+  CardMain,
   RestaurantCardCover,
   Title,
   Section,
@@ -20,16 +20,16 @@ export const RestaurantInfo = ({ restaurant = {} }) => {
     name = "Bhoopathy Tea Stall",
     address = "20 rajaManagar",
     icon = "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/lodging-71.png",
-    image = ["https://picsum.photos/300"],
-    isOpen = true,
+    photos = ["https://picsum.photos/2000"],
+    isOpenNow = true,
     rating = 4,
-    isClosed = true,
+    isClosedTemporarily = true,
   } = restaurant;
   const ratingArray = Array.from(new Array(Math.round(rating)));
 
   return (
-    <Card elevation={5}>
-      <RestaurantCardCover source={{ uri: image[0] }} />
+    <CardMain elevation={5}>
+      <RestaurantCardCover source={{ uri: photos[0] }} />
       <Title>{name}</Title>
       <Section>
         <Rating>
@@ -43,12 +43,12 @@ export const RestaurantInfo = ({ restaurant = {} }) => {
           ))}
         </Rating>
         <OpenResult>
-          {isClosed && <Closed> Closed Temporarily :(</Closed>}
-          {isOpen && <SvgXml xml={Open} width={20} height={20} />}
+          {isClosedTemporarily && <Closed> Closed Temporarily </Closed>}
+          {isOpenNow && <SvgXml xml={Open} width={20} height={20} />}
           <Icon source={{ uri: icon }} />
         </OpenResult>
       </Section>
       <Address>{address}</Address>
-    </Card>
+    </CardMain>
   );
 };
