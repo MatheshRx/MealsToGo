@@ -3,9 +3,10 @@ import React, { useContext } from "react";
 import {
   View,
   SafeAreaView,
-  // StatusBar,
+  StatusBar,
   FlatList,
   StyleSheet,
+  Pressable,
 } from "react-native";
 import styled from "styled-components/native";
 import { ActivityIndicator, Colors } from "react-native-paper";
@@ -15,16 +16,16 @@ import { RestaurantsContext } from "../../../Services/restaurants/restaurants.co
 import { Search } from "../Components/SearchBar";
 const Container = styled(SafeAreaView)`
   flex: 1;
+  ${StatusBar.currentHeight && `margin-top: ${StatusBar.currentHeight}px`};
 `;
-// * ${StatusBar.currentHeight && `margin-top: ${StatusBar.currentHeight}px`}; there is no use to due to
 
 const LoaderView = styled(View)`
   flex: 1;
   justify-content: center;
 `;
 
-export const RestaurantScreen = () => {
-  const { restaurants, isLoading, error } = useContext(RestaurantsContext);
+export const RestaurantScreen = ({ navigation }) => {
+  const { restaurants, isLoading } = useContext(RestaurantsContext);
   return (
     <Container>
       <Search />
@@ -40,7 +41,13 @@ export const RestaurantScreen = () => {
         <FlatList
           data={restaurants}
           renderItem={({ item }) => {
-            return <RestaurantInfo restaurant={item} />;
+            return (
+              <Pressable
+                onPress={() => navigation.navigate("RestaurantDetail")}
+              >
+                <RestaurantInfo restaurant={item} />
+              </Pressable>
+            );
           }}
           keyExtractor={(item) => item.name}
           contentContainerStyle={styles.list}
